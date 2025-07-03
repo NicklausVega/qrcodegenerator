@@ -1,3 +1,4 @@
+![](https://cdn.mrgamer.xyz/QRCodeGenerator.png)
 # 🎯 QR Generator - Modern QR Code Platform
 
 <div align="center">
