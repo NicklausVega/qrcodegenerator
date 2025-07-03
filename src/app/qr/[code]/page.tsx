@@ -1,20 +1,48 @@
 import { redirect } from 'next/navigation';
+import { getQRCodeByCode, recordQRScan } from '@/lib/qr-codes';
+import { headers } from 'next/headers';
 
 async function getDestinationURL(code: string): Promise<string | null> {
-  // Replace this with your actual logic to fetch the destination URL
-  const urlMap: Record<string, string> = {
-    'abc123': 'https://example.com/page1',
-    'def456': 'https://example.com/page2',
-  };
-  return urlMap[code] || null;
+  try {
+    const qrCode = await getQRCodeByCode(code);
+    
+    if (!qrCode || !qrCode.is_active) {
+      return null;
+    }
+
+    // Record the scan with metadata
+    const headersList = await headers();
+    const userAgent = headersList.get('user-agent') || undefined;
+    const referer = headersList.get('referer') || undefined;
+    const forwardedFor = headersList.get('x-forwarded-for');
+    const realIp = headersList.get('x-real-ip');
+    const ip = forwardedFor?.split(',')[0] || realIp || undefined;
+
+    // Record scan asynchronously (don't wait for it)
+    recordQRScan(code, {
+      ip_address: ip,
+      user_agent: userAgent,
+      referrer: referer,
+    }).catch(console.error);
+
+    return qrCode.redirect_url;
+  } catch (error) {
+    console.error('Error fetching QR code:', error);
+    return null;
+  }
 }
 
-export default async function QRRedirectPage({ params }: { params: { code: string } }) {
-  const destinationURL = await getDestinationURL(params.code);
+export default async function QRRedirectPage({ 
+  params 
+}: { 
+  params: Promise<{ code: string }> 
+}) {
+  const { code } = await params;
+  const destinationURL = await getDestinationURL(code);
 
   if (!destinationURL) {
-    // Optionally, you can redirect to a 404 page or render a custom error component
-    redirect('/404');
+    // Redirect to a custom 404 page for invalid QR codes
+    redirect('/qr-not-found');
   }
 
   redirect(destinationURL);
