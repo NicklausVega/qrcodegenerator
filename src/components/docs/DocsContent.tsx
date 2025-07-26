@@ -11,9 +11,10 @@ import Link from 'next/link';
 
 interface DocsContentProps {
   content: string;
+  title?: string;
 }
 
-export default function DocsContent({ content }: DocsContentProps) {
+export default function DocsContent({ content, title }: DocsContentProps) {
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
   const copyToClipboard = async (text: string) => {
@@ -28,6 +29,11 @@ export default function DocsContent({ content }: DocsContentProps) {
 
   return (
     <div className="flex-1 max-w-none">
+      {title && (
+        <h1 className="text-4xl font-black text-white mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
+          {title}
+        </h1>
+      )}
       <div className="prose prose-invert prose-lg max-w-none">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
