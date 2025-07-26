@@ -154,6 +154,12 @@ const qrPresets = {
   },
 };
 
+// Define interface for QRCodeStyling instance
+interface QRCodeStylingInstance {
+  download: (options?: { name?: string; extension?: string }) => Promise<void>;
+  append: (element: HTMLElement) => void;
+}
+
 const QRCodeFormDialog: React.FC<QRCodeFormDialogProps> = ({
   open,
   onOpenChange,
@@ -162,7 +168,7 @@ const QRCodeFormDialog: React.FC<QRCodeFormDialogProps> = ({
   loading = false,
   mode = "create",
 }) => {
-  const [qrCode, setQrCode] = useState<any>(null); // QRCodeStyling instance
+  const [qrCode, setQrCode] = useState<QRCodeStylingInstance | null>(null); // QRCodeStyling instance
   const [isGenerating, setIsGenerating] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const qrRef = useRef<HTMLDivElement>(null);
@@ -213,6 +219,10 @@ const QRCodeFormDialog: React.FC<QRCodeFormDialogProps> = ({
       });
     }
   }, [initialData, mode, form]);
+
+  // Extract complex expression for dependency array
+  const shouldWatchRedirectUrl = mode === "create";
+  const redirectUrlValue = shouldWatchRedirectUrl ? watchedRedirectUrl : null;
 
   // Generate QR code when values change
   useEffect(() => {
@@ -286,7 +296,7 @@ const QRCodeFormDialog: React.FC<QRCodeFormDialogProps> = ({
         };
 
         const newQrCode = new QRCodeStyling(options);
-        setQrCode(newQrCode);
+        setQrCode(newQrCode as QRCodeStylingInstance);
 
         // Clear previous QR code and append new one
         if (qrRef.current) {
@@ -308,11 +318,13 @@ const QRCodeFormDialog: React.FC<QRCodeFormDialogProps> = ({
   }, [
     watchedStyling, 
     watchedImageUrl, 
-    mode === "create" ? watchedRedirectUrl : null, // Only watch redirect URL in create mode
+    redirectUrlValue, // Use the extracted variable
     open, 
     isLoaded, 
     initialData?.code, 
-    mode
+    mode,
+    initialData,
+    watchedRedirectUrl
   ]);
 
   const applyPreset = (presetKey: keyof typeof qrPresets) => {
@@ -326,7 +338,7 @@ const QRCodeFormDialog: React.FC<QRCodeFormDialogProps> = ({
   };
 
   const downloadQRCode = () => {
-    if (!qrCode) return;
+    if (!qrCode || typeof qrCode.download !== 'function') return;
     qrCode.download({ name: "qr-code", extension: "png" });
   };
 

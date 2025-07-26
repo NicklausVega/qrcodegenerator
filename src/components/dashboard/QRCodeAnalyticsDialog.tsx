@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import type { QRCode, QRScan } from "@/lib/qr-types";
 import { QRCodeService } from "@/lib/qr-client";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,15 +39,9 @@ const QRCodeAnalyticsDialog: React.FC<QRCodeAnalyticsDialogProps> = ({
   const [scans, setScans] = useState<QRScan[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const qrCodeService = new QRCodeService();
+  const qrCodeService = useMemo(() => new QRCodeService(), []);
 
-  useEffect(() => {
-    if (open && qrCode) {
-      fetchAnalytics();
-    }
-  }, [open, qrCode]);
-
-  const fetchAnalytics = async () => {
+  const fetchAnalytics = useCallback(async () => {
     try {
       setLoading(true);
       const scanData = await qrCodeService.getQRCodeAnalytics(qrCode.id);
@@ -57,7 +51,13 @@ const QRCodeAnalyticsDialog: React.FC<QRCodeAnalyticsDialogProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [qrCode.id, qrCodeService]);
+
+  useEffect(() => {
+    if (open && qrCode) {
+      fetchAnalytics();
+    }
+  }, [open, qrCode, fetchAnalytics]);
 
   // Calculate analytics
   const todayScans = scans.filter(scan => {

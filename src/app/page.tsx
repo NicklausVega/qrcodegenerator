@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import ServerQRCodeGen from "@/components/qr/ServerQRCodeGen";
 import { Button } from "@/components/ui/button";
@@ -10,12 +9,10 @@ import {
   Palette, 
   Download, 
   Users, 
-  Zap, 
   Shield, 
   Github,
   ArrowRight,
   Check,
-  Star,
   Sparkles,
   TrendingUp,
   Lock,
@@ -449,7 +446,7 @@ export default function Home() {
                 QR Generator
               </h3>
               <p className="text-slate-400 mb-8 max-w-md text-lg leading-relaxed">
-                The world's most advanced open-source QR code platform. 
+                The world&apos;s most advanced open-source QR code platform. 
                 Trusted by developers and enterprises worldwide.
               </p>
               <div className="flex space-x-6">

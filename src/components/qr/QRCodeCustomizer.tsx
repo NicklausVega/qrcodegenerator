@@ -312,7 +312,7 @@ const QRCodeCustomizer: React.FC = () => {
   // Generate initial QR code
   useEffect(() => {
     generateQRCode(form.getValues());
-  }, []);
+  }, [form]);
 
   // Watch for form changes and regenerate QR code
   const watchedValues = form.watch();
