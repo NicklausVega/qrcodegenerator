@@ -79,7 +79,7 @@ export default function Home() {
                 </Button>
               </Link>
               
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+              <a href="https://https://github.com/NicklausVega/qrcodegenerator/NicklausVega/qrcodegenerator" target="_blank" rel="noopener noreferrer">
                 <Button variant="ghost" size="lg" className="px-10 py-6 text-lg font-semibold rounded-xl transition-all duration-300 hover:bg-slate-100 dark:hover:bg-slate-800">
                   <Github className="mr-2 h-5 w-5" />
                   <span className="hidden sm:inline">View on</span> GitHub
@@ -339,7 +339,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <a href="https://github.com/NicklausVega/qrcodegenerator" target="_blank" rel="noopener noreferrer">
+                <a href="https://https://github.com/NicklausVega/qrcodegenerator/NicklausVega/qrcodegenerator" target="_blank" rel="noopener noreferrer">
                   <Button size="lg" variant="outline" className="px-8 py-4 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm rounded-xl font-semibold transition-all duration-300">
                     <Github className="mr-2 h-5 w-5" />
                     View Source Code
@@ -450,7 +450,7 @@ export default function Home() {
                 Trusted by developers and enterprises worldwide.
               </p>
               <div className="flex space-x-6">
-                <a href="https://github.com" className="text-slate-400 hover:text-white transition-colors duration-300">
+                <a href="https://https://https://github.com/NicklausVega/qrcodegenerator/NicklausVega/qrcodegenerator" className="text-slate-400 hover:text-white transition-colors duration-300">
                   <Github className="h-6 w-6" />
                 </a>
               </div>
@@ -471,7 +471,7 @@ export default function Home() {
               <h4 className="font-bold mb-6 text-lg">Resources</h4>
               <ul className="space-y-4 text-slate-400">
                 <li><Link href="/support" className="hover:text-white transition-colors duration-300">Support</Link></li>
-                <li><a href="https://github.com/NicklausVega/qrcodegenerator" className="hover:text-white transition-colors duration-300">GitHub</a></li>
+                <li><a href="https://https://github.com/NicklausVega/qrcodegenerator/NicklausVega/qrcodegenerator" className="hover:text-white transition-colors duration-300">GitHub</a></li>
               </ul>
             </div>
           </div>
